@@ -1,4 +1,32 @@
-"scripts": {
-  "start": "node bot.js"
-},
-"main": "bot.js"
+{
+  "name": "monobot",
+  "version": "0.2.5",
+  "description": "Monotone Official Bot",
+  "engines": {
+    "node": "4.4.4"
+  },
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "ddg": "0.0.3",
+    "discord.js": "8.1.0",
+    "wundergroundnode": "0.9.0"
+    "node-opus": "0.2.0"
+    "nyt": "0.1.0"
+    "stackexchange": "0.4.0"
+    "ytdl-core": "0.7.16"
+    "request": "2.74.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/2goo/monobot"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT"
+}
