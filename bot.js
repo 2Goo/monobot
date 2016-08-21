@@ -367,7 +367,7 @@ if (input.startsWith("&BOTSTATUS")) {
 			console.log("User: " + message.author.username + " changed the bot's status to: Idle");
 			bot.sendMessage(message, "__Status__ | **Idle**");
 		}else{
-			bot.sendMessage(message, "'"stat + "' is not a valid status.");
+			bot.sendMessage(message, "'" + stat + "' is not a valid status.");
 		}
 	}else{
 		bot.sendMessage(message, "[Blank] is not a valid status.");
