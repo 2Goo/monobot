@@ -69,7 +69,11 @@ if(input ===  "&INFO")
 		console.log("Info Command Issued.")
 	}//Info Command //Info About Bot
 if(input ===  "&PING")
-	bot.sendMessage(message, "Pong", (e, sentMessage) => {bot.updateMessage(sentMsg, "**Pong**   |   *__" + (sentMessage.timestamp - message.timestamp) + "ms__*")});
+ const start = process.hrtime();
+ bot.sendMessage(message, "**Pong!**").then(() => {
+   const diff = process.hrtime(start);
+   bot.sendMessage(message,'**Pong!**\n__${(diff[0] * 1000) + (diff[1] / 1000000)}s__');
+   });
 		console.log("Ping Command Issued.")
 	//Ping Command
 if(input ===  "&HELP")
@@ -315,257 +319,6 @@ if (input == "SEARCH" + message.server.roles.get('name', 'play').mention()){
 if (message.server == null) {
 	console.log("User: " + message.author.username + ", sent: " + input);
 	}
-    if (message.isMentioned("204989422133968897")) {
-        bot.sendMessage(message, "I'm always watching you, always watching...")
-        console.log("User: " + message.author.username + " mentioned MonoBot in channel: " + message.channel.name);
-    }
-    if (message.everyoneMentioned == true) {
-        console.log("User: " + message.author.username + " mentioned @everyone, in channel: " + message.channel.name + " with the message: " + message.content);
-        bot.sendMessage(message.server.owner, "User: " + message.author.username + " mentioned @everyone, in channel: " + message.channel.name + " with the message: " + message.content);
-    }
-    if (input.startsWith("&EVAL") & message.server == null) {
-        code_raw = input.split(" ");
-        pass = code_raw[1];
-        bot.sendMessage(message, "Password: " + pass);
-        if (pass === "ONTASKSPICY1234") {
-            code_raw2 = message.content.split(" ");
-            code_raw2.shift();
-            code_raw2.shift();
-            code = code_raw2.join(" ");
-            try {
-                eval(code);
-            }
-            catch(err) {
-                bot.sendMessage(message, "The code was attempted, but threw an error: " + err);
-            }
-            console.log("User: " + message.author.username + " ran the code: " + code);
-            bot.sendMessage(message, "Running code: " + code);
-        }
-        else {
-            bot.sendMessage(message, "Your password was incorrect.");
-        }
-    }
-	if(input ===  "&INFO")
-	{
-		bot.reply(message, "Hello, I am MonoBot! I am currently in alpha. I am an experimental Discord Bot created by developers Nic and Alex, for  use in Monotone!");
-		console.log("Info Command Issued.")
-	}
-	if(input ===  "&PING")
-	bot.sendMessage(message.channel, "Pong!", function(err, message){
-	    if(!err){
-		bot.updateMessage(message, "Pong, *" + (message.timestamp - message.timestamp) + "ms*.")
-	    }
-		console.log("Ping Command Issued.")
-	});
-	if (input === "&UPTIME") {
-	    uptime = bot.uptime / 1000;
-	    bot.sendMessage(message, "I have been alive for " + uptime + " seconds!");
-	}
-	if (input === "&GETBANS") {
-	    bot.getBans(message.server.id, function (error, users) {
-	        if (users[0] == null) {
-	            bot.sendMessage(message, "There are no bans for this server.");
-	        }
-	        else {
-	            bans = users.join(", ");
-	            bot.sendMessage(message, "Bans for server: " + message.server.name + ", " + bans);
-	        }
-	    });
-	}
-	if(input ===  "&HELP")
-	{
-	    bot.sendMessage(message, "**__MonoBot Command List__**\n\n*Don't include the example brackets when using commands!*\n\n**`&NewVote <Vote Name>`** - *Starts a new vote.*\n**`&Vote <+ or ->`** - *Votes on current poll.*\n**`&EndVote`** - *Ends the current poll.*\n**`&Info`** - *A little bit of info about SidBot.*\n**`&WhoIsTheCoolest`** - *Sid Fun.*\n**`&Live`** - *Sid Fun.*\n**`&WhoAreYou`** - *Sid Fun.*\n**`&Ping`** - *Pong! Test bot latency.*\n**`&Report <@Username> <Reason>`** - *Report a user.*\n**`&KillTask`** - *Kill Bot Task.*\n**`;0;`** - *Simple game!*\n**`&Spam <@Username> <Message>`** - *Spam a message to a user through DM.*\n**`&Kick <@Username>`** - *Kick a member.*\n**`&Ban <@Username>`** - *Ban a member.*\n**`&GameHistory`** - *Stats for ;0;*\n**`&Search <Result index 0-3, both inclusive> <Search Query>`** - *Searches DuckDuckGo Search Engine* \n More Commands and Documentation at: https://github.com/arby36/monobotdiscordbot/wiki");
-		console.log("Help Command Issued.")
-	}
-	if(input ===  "&WHOISTHECOOLEST")
-	{
-		bot.sendMessage(message, "__**Sid is always the coolest.**__");
-		console.log("Fun(WhoIsTheCoolest) Command Issued.")
-	}
-	if(input ===  "&KILLTASK")
-    {
-        if(bot.memberHasRole(message.author, message.server.roles.get('name', 'jsAdmin'))){
-            bot.reply(message, "Stop, Nic.");
-        }
-        else {
-            bot.reply(message, " you do not have access to this command.")
-        }
-	}
-	if (input === "&KICKBOT")
-  {
-      if(bot.memberHasRole(message.author, message.server.roles.get('name', 'jsAdmin'))){
-	    bot.sendMessage(message, "Bye, " + message.server.name + ", I'll be back soon!");
-	    bot.leaveServer(message.server.id);
-	    console.log("Monobot was kicked out of server: " + message.server.name + ", by user: " + message.author.username);
-    }
-	}
-	if (input.startsWith("&SEARCH")) {
-	    query_raw = message.content.split(" ");
-	    query_raw.shift();
-	    index = query_raw.shift();
-	    query = query_raw.join(" ");
-	    ddg.query(query, function (err, data) {
-	        try {
-	            if (query == "" | query == " " | query == null) {
-	                bot.sendMessage(message, "Please enter a query.");
-	            }
-	            else {
-	                if (index > 3 | isNaN(index) == true) {
-	                    bot.sendMessage(message, "The search index is invalid.");
-	                }
-	                else {
-	                    results = data.RelatedTopics;
-	                    if (results[index] == undefined) {
-	                        bot.sendMessage(message, "No results found for: " + query);
-	                    }
-	                    else {
-	                        bot.sendMessage(message, "Search Results For: " + query + " -- " + results[index].Text + " -- Results Courtesy of DuckDuckGo");
-	                        console.log("User: " + message.author.username + " Searched: " + query);
-	                    }
-	                }
-	            }
-	        }
-	        catch (err) {
-	            bot.sendMessage(message, "An error occured: " + err);
-	        }
-	    });
-	}
-	if (input.startsWith("&WEATHER")) {
-	    w_raw = message.content.split(" ");
-	    w_raw.shift();
-	    type = w_raw.shift();
-	    zip = w_raw.join(" ");
-	    try {
-	        if (type === "temp_f") {
-	            wunderground.conditions().request(zip, function (err, response) {
-	                bot.sendMessage(message, "The tempature for: " + zip + ", " + response.current_observation.temp_f + " F");
-	            });
-	        }
-	        if (type === "temp_c") {
-	            wunderground.conditions().request(zip, function (err, response) {
-	                bot.sendMessage(message, "The tempature for: " + zip + ", " + response.current_observation.temp_c + " C");
-	            });
-	        }
-	        if (type === "forecastText") {
-	            wunderground.forecast().request(zip, function (err, response) {
-	                bot.sendMessage(message, "__**The 2-day forecast for: " + zip + ",**__ \n **Day 1** \n *" + response.forecast.txt_forecast.forecastday[0].title + "*\n" + response.forecast.txt_forecast.forecastday[0].fcttext + "\n" + "**Day 1 - Night** \n *" + response.forecast.txt_forecast.forecastday[1].title + "*\n" + response.forecast.txt_forecast.forecastday[1].fcttext + "\n" + "**Day 2** \n *" + response.forecast.txt_forecast.forecastday[2].title + "*\n" + response.forecast.txt_forecast.forecastday[2].fcttext + "\n \n Weather Courtesy of Weather Underground \n In partnership with the Weather Channel.");
-	            });
-	        }
-	        if (type === "forecastReport") {
-	            wunderground.forecast().request(zip, function (err, response) {
-	                bot.sendTTSMessage(message, "__**The 2-day forecast for: " + zip + ",**__ \n **Day 1** \n *" + response.forecast.txt_forecast.forecastday[0].title + "*\n" + response.forecast.txt_forecast.forecastday[0].fcttext + "\n" + "**Day 1 - Night** \n *" + response.forecast.txt_forecast.forecastday[1].title + "*\n" + response.forecast.txt_forecast.forecastday[1].fcttext + "\n" + "**Day 3** \n *" + response.forecast.txt_forecast.forecastday[2].title + "*\n" + response.forecast.txt_forecast.forecastday[2].fcttext + "\n \n Weather Courtesy of Weather Underground \n In partnership with the Weather Channel.");
-	            });
-	        }
-	        if (type === "station") {
-	            wunderground.almanac().request(zip, function (err, response) {
-	                bot.sendMessage(message, "Airport Code For Local Station: " + response.almanac.airport_code);
-	            });
-	        }
-	        if (type === "forecastImages") {
-	            wunderground.forecast().request(zip, function (err, response) {
-	                bot.sendMessage(message, "The 2-day forecast for: " + zip + ", \n  \n" + response.forecast.txt_forecast.forecastday[0].icon_url + "\n" + response.forecast.txt_forecast.forecastday[1].icon_url + "\n" + response.forecast.txt_forecast.forecastday[2].icon_url + "\n \n Weather Courtesy of Weather Underground \n In partnership with the Weather Channel.");
-	            });
-	        }
-	    }
-	    catch (err) {
-	        bot.sendMessage(message, "An error occured, try again later.");
-	    }
-	}
-	if (input === "TALK ABOUT THE WEATHER" | input.startsWith("WHAT'S THE WEATHER LIKE")) {
-	    wunderground.forecast().request('49506', function (err, response) {
-	        bot.sendMessage(message, "__**The 2-day forecast for: East Grand Rapids, MI,**__ \n **Day 1** \n *" + response.forecast.txt_forecast.forecastday[0].title + "*\n" + response.forecast.txt_forecast.forecastday[0].fcttext + "\n" + "**Day 1 - Night** \n *" + response.forecast.txt_forecast.forecastday[1].title + "*\n" + response.forecast.txt_forecast.forecastday[1].fcttext + "\n" + "**Day 2** \n *" + response.forecast.txt_forecast.forecastday[2].title + "*\n" + response.forecast.txt_forecast.forecastday[2].fcttext + "\n \n Weather Courtesy of Weather Underground \n In partnership with the Weather Channel.");
-	    });
-	}
-	if (input.startsWith("&NEWS")) {
-	    //Query Type
-	    newsq_raw = input.split(" ");
-	    newsq_raw.shift();
-	    NType = newsq_raw.shift();
-	    //Query
-	    newsq_raw2 = message.content.split(" ");
-	    newsq_raw2.shift();
-	    newsq_raw2.shift();
-	    newsq = newsq_raw2.join(" ");
-        //Handling
-	    if (NType === "HEADLINE") {
-	        nyt.article.search({ 'q': newsq }, function (response) {
-	            data = JSON.parse(response);
-	            bot.sendMessage(message, "__**Latest Headline containing your search: **__\n" + data.response.docs[0].headline.main + "\n Link: " + data.response.docs[0].web_url + "\n \n Date: " + data.response.docs[0].pub_date + "\n News Courtesy of the New York Times");
-	        });
-	    }
-	}
-	if (input === "&GETAPI") {
-	    request('http://m.uploadedit.com/ba3s/1470444694177.txt', function (error, response, body) {
-	        if (!error && response.statusCode == 200) {
-	            data = JSON.parse(body);
-	            bot.sendMessage(message, "API Message: " + data.main.meta + " \n " + data.main.message);
-	        }
-	    })
-	}
-	//Game Code vvv
-	if(input ===  ";0;")
-	{
-	    //important message about in a row functionality:
-        //The bot does not know the difference between users, so if you can fix that, please do...
-	        inarow = message.author;
-            var dice1 = Math.floor((Math.random() * 3));
-            var dice2 = Math.floor((Math.random() * 3));
-            var rand = Math.floor((Math.random() * (128044 - 128000)));
-            var str = String.fromCodePoint(128000+rand);
-            var toSend = [];
-            if(dice1 == dice2)
-            {
-                inarow2++;
-                toSend.push("**You won!** *Your Prize:* [" + str + "], You Have: " + inarow2 + " In a Row!");
-                console.log("Game Command Issued by: " + message.author.username + ", who won");
-                if (his.length >= 10) {
-                    his = [];
-                }
-                else {
-                    his.push(str);
-                }
-
-                aow++;
-            }
-            else{
-                toSend.push("You lost.");
-                console.log("Game Command Issued by: " + message.author.username + ", who lost");
-                inarow2 = 0;
-                aol++;
-
-            }
-            bot.sendMessage(message.channel, toSend);
-	}
-	if (input === "&GAMEHISTORY") {
-	    total = aow + aol;
-	    winp = aow / total * 100;
-	    console.log("Game History Command Issued");
-	    bot.sendMessage(message, "Last 10 Prizes Won (Everyone on server): " + his.toString() + "\nTotal Number of Wins (Everyone on server): " + aow.toString() + "\nTotal Number of Losses (Everyone on server): " + aol.toString() + "\nWin Percentage: " + winp + "%");
-
-	}
-
-	//End Game Code ^^^
-	if(input ===  "&LIVE")
-	{
-	    bot.sendMessage(message, "__***Live the #MonoLife.***__");
-		console.log("Fun(Live) Command Issued.")
-	}
-	if(input.startsWith("&REPORT")) {
-			var te = input;
-			reason = te.split(" "); reason.shift();
-			var name = reason.shift();
-			bot.sendMessage(message.channel.server.owner, "REPORT: '" + name + "' was reported by '" + message.author.username + "'. Reason: '" + reason.join(" ") + "' | SidBot User Reporter");
-			bot.reply(message, " thank you for reporting *'" + name + "'*. We will try to look into this case soon.");
-			console.log("Report Command Issued. '" + name + "' was reported by '" + message.author.username + "'. Reason: '" + reason.join(" ") + "' | SidBot User Reporter");
-	}
-	if(input ===  "&WHOAREYOU")
-	{
-		bot.sendMessage(message, "Hold on, let me take a picture of myself. It may look wierd...");
-		console.log("Fun(WhoAreYou) Command Issued.");
-		bot.sendFile(message, "http://i.imgur.com/MnS4JXH.png");
-		console.log("Fun(WhoAreYou) Image Sent.");
-
-	}//Log to Console when Bot is DM'ed
 if(input === "&MUTEALL") {
 	bot.sendMessage(message, "*This command is currently not available. It will be implemented soon.*");
 	}//Mute all members in Voice Chat
@@ -583,7 +336,7 @@ if (input.startsWith("&BOTNICKNAME")) {
 	var nickname = nickname_raw[1];
 	bot.setNickname(message.server.id, nickname);
 	console.log("User: " + message.author.username + " changed the bot's nickname to: " + nickname);
-	bot.sendMessage(message, "MonoBot's nickname changed to: '" + nickname + "'");
+	bot.sendMessage(message, "__Bot Nickname__ | '" + nickname + "'");
 	}//Change Bot's nickname
 if (input.startsWith("&NICKNAME")) {
 	var nickname_raw = message.content.split(" ");
@@ -591,13 +344,13 @@ if (input.startsWith("&NICKNAME")) {
 	nickname = nickname_raw.join(" ");
 	bot.setNickname(message.server.id, nickname, message.author.id);
 	console.log("User: " + message.author.username + " changed their nickname to: " + nickname);
-	bot.sendMessage(message, "Your nickname was changed to: " + nickname);
+	bot.sendMessage(message, "__Your Nickname__ | " + nickname);
 } //Change Message Sender Nickname
 if (input.startsWith("&BOTGAME")) {
 	var game = message.content.split(" ").slice(1).join(" ");
 	bot.setPlayingGame(game);
 	console.log("User: " + message.author.username + " changed the bot's game status to: " + game);
-	bot.sendMessage(message, "MonoBot's game status changed to: Playing **" + game + "**");
+	bot.sendMessage(message, "__Game__ | Playing **" + game + "**");
 } //Change Bot's Currently Playing Game
 if (input.startsWith("&BOTSTATUS")) {
 	var stat_raw = message.content.split(" ");
@@ -607,17 +360,17 @@ if (input.startsWith("&BOTSTATUS")) {
 		if (stat === "online") {
 			bot.setStatus("online");
 			console.log("User: " + message.author.username + " changed the bot's status to: Online");
-			bot.sendMessage(message, "MonoBot's status changed to: **Online**");
+			bot.sendMessage(message, "__Status__ | **Online**");
 		}
 		else if (stat === "idle") {
 			bot.setStatus("idle");
 			console.log("User: " + message.author.username + " changed the bot's status to: Idle");
-			bot.sendMessage(message, "MonoBot's status changed to: **Idle**");
+			bot.sendMessage(message, "__Status__ | **Idle**");
 		}else{
-			bot.sendMessage(message, stat + " Is not a valid status (online or idle)");
+			bot.sendMessage(message, "'"stat + "' is not a valid status.");
 		}
 	}else{
-		bot.sendMessage(message, "[Blank] is not a valid status (online or idle)");
+		bot.sendMessage(message, "[Blank] is not a valid status.");
 	}
 } //Change Bot's Status
 if (input === "&STARTTYPING") {
@@ -628,14 +381,7 @@ if (input === "&STOPTYPING") {
 } //Stop Showing Bot as Typing
 if (input === "&NEWINVITE") {
 	bot.createInvite(message.channel.id);
-	bot.sendMessage(message, "Invite Created for 24 hours, check invite pages for this channel.");
-	}
-	if (input.startsWith("&USERID")) {
-		if (message.mentions[0] == null) {
-			bot.sendMessage(message, "Your user ID is: `" + message.author.id + "`");
-		}else{
-			userMentioned = message.mentions[0];
-			bot.sendMessage(message, userMentioned.username + "'s ID: `" + userMentioned.id + "`");
+	bot.sendMessage(message, "24 Hour Temporary Invite Created. Check invite list for code.");
 	}
 } //Create A New Temporary Invite
 if (input.startsWith("&USERID")) {
@@ -719,7 +465,7 @@ if (input === "W$START") {
 } //Start Wikipedia Challenge //Start Wikipedia Challenge
 if (input === "W$DONE") {
 	if (reg.indexOf(message.author.username) != -1) {
-	bot.sendMessage(message, "@everyone, " + message.author.username + " has claimed to havewon the Wikipedia Challenge!" + message.author.usermame + ", please send your page trail to chat!");
+	bot.sendMessage(message, "@everyone, " + message.author.username + " has claimed to have won the Wikipedia Challenge!" + message.author.usermame + ", please send your page trail to chat!");
 	reg = [];
 	}
 	else {
@@ -752,7 +498,7 @@ if (input.startsWith("&EVAL") & message.server == null) {
 						eval(code);
 				}
 				catch(err) {
-						bot.sendMessage(message, "The code was attempted, but threw an error: " + err);
+						bot.sendMessage(message, "The code was attempted, but threw an error: `" + err + "`");
 				}
 				console.log("User: " + message.author.username + " ran the code: " + code);
 				bot.sendMessage(message, "Running Code:\n```js\n" + code + "```");
@@ -763,7 +509,7 @@ if (input.startsWith("&EVAL") & message.server == null) {
 } //Eval Code through DM
 if (input === "&UPTIME") {
 	uptime = bot.uptime / 1000;
-	bot.sendMessage(message, "I have been alive for " + uptime + " seconds!");
+	bot.sendMessage(message, "__Uptime__ | `" + uptime + " seconds`");
 } //Get Bot's Current Session Uptime
 if (input === "&GETBANS") {
 	bot.getBans(message.server.id, function (error, users) {
@@ -772,7 +518,7 @@ if (input === "&GETBANS") {
 		}
 		else {
 			bans = users.join(", ");
-			bot.sendMessage(message, "Bans for server: " + message.server.name + ", " + bans);
+			bot.sendMessage(message, "__Bans__\n" + message.server.name + "\n" + bans);
 		}
 	});
 } //Get the Server's Current Bans
@@ -974,5 +720,5 @@ bot.loginWithToken("MjA0OTg5NDIyMTMzOTY4ODk3.Cm_mtw.S_2fhJQlvybu5ugVwfEuUSc94Ko"
 
 //Bot Ready
 bot.on("ready", function() {
-	console.log("SidBot Connected Successfully.")
+	console.log("MonoBot Runtime Started")
 });
