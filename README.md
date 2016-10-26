@@ -9,6 +9,4 @@
 _https://discordapp.com/oauth2/authorize?clientid=204989362344034304&scope=bot&permissions=800_
 
 **Make sure to read the wiki for help and a list of commands!**
-
-
-
+https://github.com/arby36/monobot/wiki
